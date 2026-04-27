@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+    <title>منيو كشري حكاية | أفضل كشري في أسيوط مع توصيل</title>
+    <link rel="icon" href="imgs/logooo.png" type="image/png">
+  
+    <meta name="description" content="شوف منيو كشري حكاية في أسيوط: كشري، طواجن، ميكسات، وحلويات. اطلب أونلاين بسهولة واستمتع بتوصيل سريع.">
+  
+  
+    <link rel="canonical" href="https://yourdomain.com/menu.html">
+  
+    <meta name="robots" content="index, follow">
+  
+    <!-- Open Graph -->
+    <meta property="og:title" content="منيو كشري حكاية">
+    <meta property="og:description" content="اطلب كشري الآن من منيو كشري حكاية بأسيوط.">
+    <meta property="og:image" content="https://angelosonsy-debug.github.io/koshary-hekaya/imgs/home.jpg">
+    <meta property="og:url" content="https://angelosonsy-debug.github.io/koshary-hekaya/menu.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="كشري حكاية">
+  
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+  
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/menu.css">
+  
+    <!--  أيقونات --->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+  
+    <!-- Structured Data (Menu) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Menu",
+      "name": "منيو كشري حكاية",
+      "hasMenuSection": [
+        {
+          "@type": "MenuSection",
+          "name": "كشري",
+          "hasMenuItem": [
+            {
+              "@type": "MenuItem",
+              "name": "كشري سوبر لوكس",
+              "offers": { "@type": "Offer", "price": "35", "priceCurrency": "EGP" }
+            },
+            {
+              "@type": "MenuItem",
+              "name": "كشري جامبو",
+              "offers": { "@type": "Offer", "price": "45", "priceCurrency": "EGP" }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+  </head>
+<body>
+
+  <header id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="imgs/red-logo.jpg" alt="كشري حكاية" width="46" height="46" loading="lazy" decoding="async">
+        <span>كشري</span> حكاية
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html">الرئيسية</a>
+        <a href="menu.html" class="active">المنيو</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="container">
+      <div class="section-title reveal">
+        <span class="badge">الطلب السريع</span>
+        <h1>منيو كشري حكاية</h1>
+        <div class="seo-text" style="display:none;">
+          <h2>أفضل كشري في أسيوط</h2>
+          <p>
+            يقدم كشري حكاية مجموعة متنوعة من أطباق الكشري المصري مثل كشري سوبر لوكس، كشري جامبو، وكشري إسبشيال،
+            بالإضافة إلى الطواجن والميكسات والحلويات. يمكنك الطلب أونلاين بسهولة مع توصيل سريع داخل أسيوط.
+          </p>
+        </div>
+        <p>كشري؟  طب طاجن !!  ونحلي بايه؟!!   ولا تختار من عروضنا <br>شوف نفسك مودياك علي ايه...</p>
+      </div>
+
+      <div class="menu-toolbar reveal branch-toolbar">
+        <button class="branch-btn active" type="button" data-branch="5">فرع أسيوط</button>
+        <button class="branch-btn" type="button" data-branch="4">فرع القوصية</button>
+      </div>
+
+      <p class="current-branch">
+        📍 الفرع الحالي: <span id="currentBranchName"></span>
+      </p>
+
+
+      <div class="menu-toolbar reveal">
+        <button class="filter-btn active" data-category="all">المنيو بالكامل</button>
+        <button class="filter-btn" data-category="offers">عروض</button>
+        <button class="filter-btn" data-category="koshary">كشري</button>
+        <button class="filter-btn" data-category="tawagen">طواجن</button>
+        <button class="filter-btn" data-category="mix">ميكسات</button>
+        <button class="filter-btn" data-category="additions">إضافات</button>
+        <button class="filter-btn" data-category="desserts">حلو</button>
+        <button class="filter-btn" data-category="drinks">المشروبات</button>
+      </div>
+
+      <div id="menu-grid" class="menu-grid reveal"></div>
+    </section>
+
+    <a href="#cart" class="floating-cart floating-action">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>السلة</span>
+      <span id="cart-count" class="cart-count">0</span>
+    </a>
+  </main>
+
+  <section id="cart" class="cart-drawer">
+    <div class="container">
+      <div class="cart-head">
+        <h2>سلة الطلب</h2>
+        <a href="checkout.html" class="btn btn-primary">متابعة الطلب</a>
+      </div>
+
+      <div id="cart-items" class="cart-items"></div>
+
+      <div class="cart-summary card">
+        <div>
+          <span>الإجمالي</span>
+          <strong id="cart-total">0 EGP</strong>
+        </div>
+        <a href="checkout.html" class="btn btn-black">إتمام الطلب</a>
+      </div>
+    </div>
+  </section>
+  <footer class="section-tight">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Koshary Hekaya. All Rights Reserved.</p>
+      <p class="signature">
+        Designed & Built by <span id="developer-name">Angelos</span>
+      </p>
+    </div>
+  </footer>
+
+  <div id="branch-popup" class="popup-overlay">
+    <div class="popup-box">
+      <h3>تغيير الفرع</h3>
+      <p>لو غيرت الفرع السلة هتتبقي فاضية، هل تريد المتابعة؟</p>
+  
+      <div class="popup-actions">
+        <button id="confirm-branch" class="btn btn-primary">متابعة</button>
+        <button id="cancel-branch" class="btn btn-outline">إلغاء</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data/menuData.js" defer></script>
+  <script src="js/menu.js" defer></script>
+</body>
+</html>

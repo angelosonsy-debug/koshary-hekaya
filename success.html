@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تم تأكيد الطلب | كشري حكاية</title>
+  <link rel="icon" href="imgs/logooo.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/success.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <header id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="imgs/red-logo.jpg" alt="كشري حكاية">
+        <span>كشري</span> حكاية
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html">الرئيسية</a>
+        <a href="menu.html">المنيو</a>
+        <a href="checkout.html">إتمام الطلب</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="success-page">
+    <section class="section">
+      <div class="container success-grid reveal">
+
+        <div class="success-card card">
+          <div class="success-icon">
+            <i class="fa-solid fa-circle-check"></i>
+          </div>
+
+          <span class="badge">Order Confirmed</span>
+          <h1>تم تأكيد طلبك بنجاح 🎉</h1>
+          <p class="lead">
+            الطلب اتسجل وبدأ يدخل مرحلة التجهيز.  
+            الوقت المتبقي ظاهر تحت .
+          </p>
+
+          <div class="countdown-box card inner-card">
+            <div class="countdown-label">الوقت المتوقع للوصول</div>
+            <div id="countdown" class="countdown">--:--</div>
+            <div id="countdownNote" class="countdown-note">جارٍ حساب الوقت...</div>
+            <div class="progress-bar">
+              <div id="progressFill" class="progress-fill"></div>
+            </div>
+          </div>
+
+          <div class="order-meta">
+            <div class="meta-box card inner-card">
+              <span>رقم الطلب</span>
+              <strong id="orderNumber">#0000</strong>
+            </div>
+
+            <div class="meta-box card inner-card">
+              <span>الحالة الحالية</span>
+              <strong id="orderStatus">جاري التجهيز</strong>
+            </div>
+
+            <div class="meta-box card inner-card">
+              <span>الوقت المتوقع</span>
+              <strong id="etaText">—</strong>
+            </div>
+          </div>
+
+          <div class="tracker card inner-card">
+            <div class="tracker-head">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <h2>حالة الطلب</h2>
+            </div>
+
+            <div class="timeline">
+              <div class="timeline-step done" id="step1">
+                <span>1</span>
+                <div>
+                  <h4>تم استلام الطلب</h4>
+                  <p>الطلب اتسجل في النظام.</p>
+                </div>
+              </div>
+
+              <div class="timeline-step active" id="step2">
+                <span>2</span>
+                <div>
+                  <h4>جاري التجهيز</h4>
+                  <p>المطبخ بيجهز الطلب دلوقتي.</p>
+                </div>
+              </div>
+
+              <div class="timeline-step" id="step3">
+                <span>3</span>
+                <div>
+                  <h4>في الطريق</h4>
+                  <p>الدليفري هيتحرك بعد التجهيز.</p>
+                </div>
+              </div>
+
+              <div class="timeline-step" id="step4">
+                <span>4</span>
+                <div>
+                  <h4>تم التسليم</h4>
+                  <p>الطلب وصل وهتستمتع بالأكلة.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="success-actions">
+            <a href="menu.html" class="btn btn-outline">اطلب حاجة تانية</a>
+            <a href="index.html" class="btn btn-primary">الرجوع للرئيسية</a>
+          </div>
+        </div>
+
+        <aside class="summary-card card reveal">
+          <div class="section-title align-right">
+            <span class="badge">Summary</span>
+            <h2>ملخص الطلب</h2>
+            <p>البيانات اللي دخلتها والطلب الحالي بالكامل.</p>
+          </div>
+
+          <div id="summaryItems" class="summary-items"></div>
+
+          <div class="customer-box card inner-card">
+            <h3>بيانات العميل</h3>
+            <div class="customer-grid">
+              <div>
+                <span>الاسم</span>
+                <strong id="customerName">—</strong>
+              </div>
+              <div>
+                <span>الموبايل</span>
+                <strong id="customerPhone">—</strong>
+              </div>
+              <div>
+                <span>الفرع</span>
+                <strong id="customerBranch">—</strong>
+              </div>
+              <div>
+                <span>طريقة الدفع</span>
+                <strong id="paymentMethod">—</strong>
+              </div>
+            </div>
+          </div>
+          <div class="customer-box card inner-card">
+            <div>
+              <div>
+                <h4>سيب الصفحة مفتوحة علشان تقدر تتابع الطلب..</h4>
+              </div>
+            </div>
+          </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <footer class="section-tight">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Koshary Hekaya. All Rights Reserved.</p>
+      <p class="signature">
+        Designed & Built by <span id="developer-name">Angelos</span>
+      </p>
+    </div>
+  </footer> 
+  <script src="js/data/menuData.js"></script>
+  <script src="js/success.js"></script>
+</html>

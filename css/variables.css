@@ -1,0 +1,20 @@
+﻿:root {
+  --bg-main: #0e0e10;
+  --bg-card: #17171c;
+  --bg-soft: #121214;
+  --text-main: #fafaf7;
+  --text-muted: #a0a0a0;
+  --accent-gold: #d4a017;
+  --accent-gold-hover: #e2b23a;
+  --accent-red: #8e2a1d;
+  --accent-green: #15a06d;
+  --border-color: #2a2a31;
+  --shadow-lg: 0 24px 50px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 14px 30px rgba(0, 0, 0, 0.22);
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --font-arabic: 'Cairo', sans-serif;
+  --font-english: 'Montserrat', sans-serif;
+}

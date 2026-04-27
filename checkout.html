@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>إتمام الطلب | كشري حكاية</title>
+  <link rel="icon" href="imgs/logooo.png" type="image/png">
+
+  <link rel="preload" as="image" href="imgs/red-logo.jpg" fetchpriority="high">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/checkout.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+</head>
+<body>
+
+  <header id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <img src="imgs/red-logo.jpg" alt="كشري حكاية" width="46" height="46" loading="lazy" decoding="async">
+        <span>كشري</span> حكاية
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html">الرئيسية</a>
+        <a href="menu.html">المنيو</a>
+        <a href="menu.html#cart">السلة</a>
+        <a href="checkout.html" class="active">إتمام الطلب</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="checkout-page">
+    <section class="section">
+      <div class="container checkout-grid">
+        <div class="checkout-form-wrap card reveal">
+          <div class="section-title align-right">
+            <span class="badge">Checkout</span>
+            <h1>إتمام الطلب</h1>
+            <p>املأ بياناتك وحدد طريقة الدفع علشان نكمل الطلب بسهولة.</p>
+          </div>
+
+          <form id="checkoutForm" class="checkout-form">
+            <div class="form-grid two">
+              <div class="form-group">
+                <label for="fullName">الاسم بالكامل</label>
+                <input type="text" id="fullName" name="fullName" placeholder="اكتب اسمك" required>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">رقم الموبايل</label>
+                <input type="tel" id="phone" name="phone" placeholder="01xxxxxxxxx" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">العنوان بالتفصيل</label>
+              <textarea id="address" name="address" rows="4" placeholder="الشارع - العمارة - الدور - الشقة" required></textarea>
+            </div>
+
+            <div class="form-grid two">
+              <div class="form-group">
+                <label for="branch">الفرع</label>
+                <select id="branch" name="branch" required>
+                  <option value="">اختار الفرع</option>
+                  <option value="4">فرع القوصية</option>
+                  <option value="5">فرع أسيوط</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="area">المنطقة</label>
+                <select id="area" name="area" required disabled>
+                  <option value="">اختار الفرع الأول</option>
+                </select>
+                <small id="deliveryHint" style="color: var(--text-muted);">
+                  اختار الفرع الأول علشان تظهر المناطق المتاحة.
+                </small>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="landmark">علامة مميزة قريبة</label>
+              <input type="text" id="landmark" name="landmark" placeholder="جنب المسجد / أمام المدرسة">
+            </div>
+
+            <div class="form-group">
+              <label for="notes">ملاحظات إضافية</label>
+              <textarea id="notes" name="notes" rows="3" placeholder="مثلاً: من غير بصل / دقة زيادة / طلب خاص"></textarea>
+            </div>
+
+            <div class="payment-box">
+              <h2>طريقة الدفع</h2>
+
+              <div class="payment-options">
+                <label class="payment-option card hover-lift">
+                  <input type="radio" name="paymentMethod" value="cash" checked>
+                  <span class="option-content">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    <span>
+                      <strong>نقدي عند الاستلام</strong>
+                      <small>هتدفع للدليفري لما الأوردر يوصل</small>
+                    </span>
+                  </span>
+                </label>
+
+                <label class="payment-option card hover-lift">
+                  <input type="radio" name="paymentMethod" value="vodafone">
+                  <span class="option-content">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>
+                      <strong>فودافون كاش</strong>
+                      <small>هتروح لصفحة تأكيد الدفع بعد الإرسال</small>
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary checkout-submit">
+              <i class="fa-solid fa-arrow-left"></i>
+              تأكيد ومتابعة
+            </button>
+          </form>
+        </div>
+
+        <aside class="order-summary card reveal">
+          <div class="summary-head">
+            <span class="badge">Order Summary</span>
+            <h2>ملخص الطلب</h2>
+          </div>
+
+          <div id="summaryItems" class="summary-items"></div>
+
+          <div class="summary-meta card inner-card">
+            <div>
+              <span>الإجمالي الفرعي</span>
+              <strong id="subtotal">0 EGP</strong>
+            </div>
+            <div>
+              <span>رسوم التوصيل</span>
+              <strong id="deliveryFee">0 EGP</strong>
+            </div>
+            <div>
+              <span>الإجمالي الكلي</span>
+              <strong id="total">0 EGP</strong>
+            </div>
+          </div>
+
+          <div class="eta-box card inner-card">
+            <div class="eta-title">
+              <i class="fa-solid fa-clock"></i>
+              <h3>وقت الوصول المتوقع</h3>
+            </div>
+            <p id="etaText">—</p>
+            <small>تقدير مبدئي حسب الطلب والموقع</small>
+          </div>
+
+          <div class="help-box card inner-card">
+            <p>
+              راجع بياناتك كويس قبل الإرسال.  
+              لو الدفع نقدي، الطلب هيتبعت مباشرة.  
+              لو فودافون كاش، هتنتقل لخطوة تأكيد الدفع.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <footer class="section-tight">
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Koshary Hekaya. All Rights Reserved.</p>
+      <p class="signature">
+        Designed & Built by <span id="developer-name">Angelos</span>
+      </p>
+    </div>
+  </footer>
+  
+  <script src="js/data/menuData.js"></script>
+  <script src="js/data/deliveryZones.js"></script>
+  <script src="js/checkout.js" defer></script>
+</body>
+</html>

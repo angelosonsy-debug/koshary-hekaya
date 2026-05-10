@@ -24,6 +24,13 @@
 
   if (!summaryItems || !orderNumberEl || !countdownEl) return;
 
+  const EMAILJS_SERVICE_ID = 'service_hegpf09';
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+  const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+
+  const orderNumberKey = 'hekaya-order-number';
+  const emailSentKey = () => `hekaya-email-sent-${generateOrderNumber()}`;
+
   function money(n) {
     return `${Number(n || 0)} EGP`;
   }
@@ -45,7 +52,110 @@
   function generateOrderNumber() {
     if (checkoutData.orderNumber) return checkoutData.orderNumber;
     if (paymentData.orderNumber) return paymentData.orderNumber;
-    return `HK-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    const cached = localStorage.getItem(orderNumberKey);
+    if (cached) return cached;
+
+    const number = `HK-${Math.floor(100000 + Math.random() * 900000)}`;
+    localStorage.setItem(orderNumberKey, number);
+    return number;
+  }
+
+  function getBranchLabel() {
+    return (
+      checkoutData.branchLabel ||
+      (checkoutData.branch === '4'
+        ? 'فرع القوصية'
+        : checkoutData.branch === '5'
+          ? 'فرع أسيوط'
+          : '—')
+    );
+  }
+
+  function getAreaLabel() {
+    return checkoutData.area || '—';
+  }
+
+  function getPaymentLabel() {
+    if (checkoutData.paymentMethod === 'cash') return 'نقدي عند الاستلام';
+    if (checkoutData.paymentMethod === 'vodafone') return 'فودافون كاش';
+    return '—';
+  }
+
+  function getPaymentStateLabel() {
+    if (checkoutData.paymentMethod === 'cash') return 'جاهز للتجهيز';
+    if (checkoutData.paymentMethod === 'vodafone') {
+      return paymentData.transactionId ? 'تم تأكيد الدفع' : 'في انتظار تأكيد الدفع';
+    }
+    return '—';
+  }
+
+  function buildItemsText(items) {
+    return items
+      .map((item) => `- ${item.name} × ${item.qty}`)
+      .join('\n');
+  }
+
+  async function sendOrderEmail() {
+    const orderNumber = generateOrderNumber();
+    const items = getCartItems();
+    const subtotal =
+      typeof checkoutData.subtotal === 'number'
+        ? checkoutData.subtotal
+        : items.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+    const deliveryFee =
+      typeof checkoutData.deliveryFee === 'number'
+        ? checkoutData.deliveryFee
+        : (subtotal >= 150 ? 0 : 15);
+
+    const total =
+      typeof checkoutData.total === 'number'
+        ? checkoutData.total
+        : subtotal + deliveryFee;
+
+    const paymentState = getPaymentStateLabel();
+    const itemsText = buildItemsText(items);
+
+    const sentKey = `hekaya-email-sent-${orderNumber}`;
+    if (localStorage.getItem(sentKey) === '1') return;
+
+    if (!window.emailjs) return;
+
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+    const templateParams = {
+      order_number: orderNumber,
+      customer_name: checkoutData.fullName || '—',
+      customer_phone: checkoutData.phone || '—',
+      customer_address: checkoutData.address || '—',
+      branch: getBranchLabel(),
+      area: getAreaLabel(),
+      payment_method: getPaymentLabel(),
+      payment_state: paymentState,
+      transaction_id: paymentData.transactionId || '—',
+      payer_phone: paymentData.payerPhone || '—',
+      delivery_fee: money(deliveryFee),
+      subtotal: money(subtotal),
+      total: money(total),
+      eta_label: checkoutData.etaLabel || '—',
+      items: itemsText,
+      notes: checkoutData.notes || '—',
+      landmark: checkoutData.landmark || '—',
+      created_at: checkoutData.createdAt || new Date().toISOString()
+    };
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams
+      );
+
+      localStorage.setItem(sentKey, '1');
+    } catch (error) {
+      console.error('EmailJS send failed:', error);
+    }
   }
 
   function renderSummary() {
@@ -62,13 +172,6 @@
     const total = typeof checkoutData.total === 'number'
       ? checkoutData.total
       : subtotal + deliveryFee;
-
-    const branchLabel =
-      checkoutData.branchLabel ||
-      (checkoutData.branch === '4' ? 'فرع القوصية' :
-       checkoutData.branch === '5' ? 'فرع أسيوط' : '—');
-
-    const areaLabel = checkoutData.area || '—';
 
     if (!items.length) {
       summaryItems.innerHTML = `
@@ -90,11 +193,11 @@
         <div style="display:grid; gap:8px;">
           <div style="display:flex; justify-content:space-between; gap:12px;">
             <span style="color: var(--text-muted);">الفرع</span>
-            <strong>${branchLabel}</strong>
+            <strong>${getBranchLabel()}</strong>
           </div>
           <div style="display:flex; justify-content:space-between; gap:12px;">
             <span style="color: var(--text-muted);">المنطقة</span>
-            <strong>${areaLabel}</strong>
+            <strong>${getAreaLabel()}</strong>
           </div>
           <div style="display:flex; justify-content:space-between; gap:12px;">
             <span style="color: var(--text-muted);">رسوم التوصيل</span>
@@ -122,15 +225,13 @@
   function setCustomerInfo() {
     customerNameEl.textContent = checkoutData.fullName || '—';
     customerPhoneEl.textContent = checkoutData.phone || '—';
-    customerBranchEl.textContent =
-      checkoutData.branchLabel ||
-      (checkoutData.branch === '4' ? 'فرع القوصية' :
-       checkoutData.branch === '5' ? 'فرع أسيوط' : '—');
+    customerBranchEl.textContent = getBranchLabel();
 
-    paymentMethodEl.textContent =
-      checkoutData.paymentMethod === 'cash' ? 'نقدي عند الاستلام' :
-      checkoutData.paymentMethod === 'vodafone' ? 'فودافون كاش' :
-      '—';
+    paymentMethodEl.textContent = getPaymentLabel();
+
+    if (orderStatusEl) {
+      orderStatusEl.textContent = getPaymentStateLabel();
+    }
   }
 
   function setTimelineState(remainingMs, totalMs) {
@@ -151,11 +252,11 @@
       step2?.classList.add('done');
       step3?.classList.add('done');
       step4?.classList.add('active');
-      orderStatusEl.textContent = 'في الطريق';
+      if (orderStatusEl) orderStatusEl.textContent = 'في الطريق';
     } else if (remainingMs <= 20 * 60 * 1000) {
-      orderStatusEl.textContent = 'في الطريق';
+      if (orderStatusEl) orderStatusEl.textContent = 'في الطريق';
     } else {
-      orderStatusEl.textContent = 'جاري التجهيز';
+      if (orderStatusEl) orderStatusEl.textContent = 'جاري التجهيز';
     }
   }
 
@@ -198,12 +299,17 @@
     revealItems.forEach(el => el.classList.add('active'));
   }
 
-  window.addEventListener('load', () => {
+  window.addEventListener('load', async () => {
     orderNumberEl.textContent = generateOrderNumber();
     renderSummary();
     setCustomerInfo();
     handleReveal();
-    localStorage.removeItem('hekaya-cart');
+
+    if (checkoutData.cart) {
+      localStorage.removeItem('hekaya-cart');
+    }
+
+    await sendOrderEmail();
   });
 
   window.addEventListener('scroll', () => {
@@ -213,45 +319,35 @@
       }
     });
   });
+
   const devName = document.getElementById('developer-name');
-
-  devName.addEventListener('click', function(e) {
-    
-    const heartCount = 15; 
-
-    for (let i = 0; i < heartCount; i++) {
-      createHeart(e.clientX, e.clientY);
-    }
-  });
-
-
+  if (devName) {
+    devName.addEventListener('click', function (e) {
+      const heartCount = 15;
+      for (let i = 0; i < heartCount; i++) {
+        createHeart(e.clientX, e.clientY);
+      }
+    });
+  }
 
   function createHeart(clientX, clientY) {
     const heart = document.createElement('div');
     heart.classList.add('heart-particle');
-    
-    
-    heart.innerText = '❤️'; 
-
-    
+    heart.innerText = '❤️';
     heart.style.left = clientX + 'px';
     heart.style.top = clientY + 'px';
 
-    
     const size = Math.random() * 15 + 10;
     heart.style.fontSize = size + 'px';
 
-    
     const randomX = (Math.random() - 0.5) * 100;
     heart.style.setProperty('--random-x', randomX + 'px');
 
-    
     const duration = Math.random() * 0.4 + 0.8;
     heart.style.animationDuration = duration + 's';
 
     document.body.appendChild(heart);
 
-    
     setTimeout(() => {
       heart.remove();
     }, duration * 1000);

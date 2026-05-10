@@ -25,8 +25,8 @@
   if (!summaryItems || !orderNumberEl || !countdownEl) return;
 
   const EMAILJS_SERVICE_ID = 'service_hegpf09';
-  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-  const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+  const EMAILJS_TEMPLATE_ID = 'template_nl536eh';
+  const EMAILJS_PUBLIC_KEY = '-oXpizJj1WzSIenoa';
 
   const orderNumberKey = 'hekaya-order-number';
   const emailSentKey = () => `hekaya-email-sent-${generateOrderNumber()}`;
